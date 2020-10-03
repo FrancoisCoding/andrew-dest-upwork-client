@@ -124,3 +124,51 @@
 .destination-list div {
   padding: 0.5rem;
 }
+
+@media only screen and (max-width: 600px) {
+  .destination-fill {
+    flex-direction: column;
+    width: 100%;
+    font-size: 1rem;
+  }
+
+  .destination-fill-left {
+    width: 100%;
+  }
+
+  .destination-fill-right {
+    width: 100%;
+  }
+
+  .destination-input {
+    margin-top: 0.5rem;
+  }
+
+  .destination-border {
+    width: 100%;
+  }
+
+  .destination-info-left {
+    padding: 2rem;
+    width: 100%;
+  }
+
+  .destination-info {
+    flex-direction: column;
+  }
+
+  .destination-info-right {
+    padding: 2rem;
+    width: 100%;
+    margin-top: 1rem;
+  }
+
+  .destination-other {
+    padding: 2rem;
+    width: 100%;
+  }
+
+  .container h1 {
+    font-size: 1.5rem;
+  }
+}

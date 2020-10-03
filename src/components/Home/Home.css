@@ -146,3 +146,77 @@
   width: 50%;
   font-size: 1rem;
 }
+
+@media only screen and (max-width: 600px) {
+  .home-card {
+    width: 100%;
+  }
+
+  .home-card-title {
+    font-size: 1.5rem;
+  }
+
+  .home-card-subtitle {
+    font-size: 1rem;
+  }
+
+  .home-card-fill {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .home-card-btn {
+    font-size: 1rem;
+  }
+
+  .home-card-fill-left {
+    width: 90%;
+    margin-top: 1rem;
+  }
+
+  .home-card-fill-right {
+    width: 90%;
+    margin-top: 1rem;
+  }
+
+  .input-label {
+    text-align: center;
+  }
+
+  .home-card-bottom {
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    width: 90%;
+    margin-top: 3rem;
+  }
+
+  .home-card-bottom p {
+    font-size: 1rem;
+  }
+
+  .home-card-bottom-left {
+    width: 100%;
+  }
+
+  .home-card-bottom-right {
+    margin-top: 1rem;
+    width: 100%;
+  }
+
+  .home-card-bottom-email {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .home-card-bottom-btn {
+    margin-top: 1rem;
+    font-size: 1rem;
+  }
+
+  .home-card-bottom-input {
+    width: 100%;
+  }
+}
