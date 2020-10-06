@@ -1,163 +1,135 @@
 import React, { useState, useEffect } from "react";
 import "./Destinations.css";
-import firebaseDest from "../../firebaseDest";
-import destInfo from "../../destInfo";
 import AllDestinations from "./AllDestinations";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  setDestinations,
+  setOutput,
+  updateCountry,
+  updateCheck,
+  updateDestination,
+  searchDest,
+  setTextObject,
+  setTextObjectVF,
+  setTextObjectVOA,
+  setTextObjectETA,
+  setTextObjectVR,
+} from "../../actions";
 
-const Destinations = () => {
-  const [destinations, setDestinations] = useState();
-  const [destInput, setDestInput] = useState({
-    country: "",
-    destination: "",
-    check: false,
-  });
-  const [output, setOutput] = useState();
-  const [outputInfo, setOutputInfo] = useState();
-  const [textObject, setTextObject] = useState({
-    borders: "Opened Borders",
-    visa: "",
-    quarantine: "",
-    covid: "",
-    temp: "",
-    vColor: "green",
-    color: "green",
-  });
+const Destinations = (props) => {
+  const state = useSelector((state) => state.state);
+  const dispatch = useDispatch();
+  console.log("Redux State", state);
+  const {
+    destinations,
+    countryInput,
+    destinationInput,
+    checkInput,
+    output,
+    textObject,
+    outputInfo,
+  } = state;
 
-  const databaseRef = firebaseDest.database().ref();
-  console.log("Output Info", outputInfo);
+  const [suggestion, setSuggestion] = useState();
 
   useEffect(() => {
-    databaseRef.on("value", (snapshot) => {
-      setDestinations(snapshot.val());
-    });
+    dispatch(setDestinations());
   }, []);
 
   useEffect(() => {
-    if (destinations && destInput.country != "") {
-      setOutput(
-        destinations.filter(
-          (x) =>
-            x.A.toLowerCase().includes(`${destInput.country}`) &&
-            x.B.toLowerCase().includes(`${destInput.destination}`)
-        )[0]
-      );
+    console.log("DESTINATIONS", destinations);
+    console.log("COUNTRY", countryInput);
+    if (destinations && countryInput != "") {
+      console.log("SETTING OUTPUT");
+      dispatch(setOutput());
+      const filterDestinations = destinations.filter((x) =>
+        x.A.toLowerCase().includes(`${countryInput}`)
+      )[0];
+      setSuggestion(filterDestinations);
     }
-  }, [destInput]);
-
-  useEffect(() => {
-    databaseRef.on("value", (snapshot) => {
-      setDestinations(snapshot.val());
-    });
-  }, []);
-
-  useEffect(() => {
-    if (output) {
-      if (output.C === "VF") {
-        setTextObject({
-          borders: "Opened Borders",
-          visa: "Visa-free",
-          quarantine: "No",
-          covid: "No",
-          temp: "No",
-        });
-      } else if (output.C === "VOA") {
-        setTextObject({
-          borders: "Opened Borders",
-          visa: "Visa on Arrival",
-          quarantine: "No",
-          covid: "No",
-          temp: "No",
-          vColor: "yellow",
-          color: "green",
-        });
-      } else if (output.C === "ETA") {
-        setTextObject({
-          borders: "Opened Borders",
-          visa: "Electronic Travel Authority",
-          quarantine: "No",
-          covid: "No",
-          temp: "No",
-          vColor: "yellow",
-          color: "green",
-        });
-      } else if (output.C === "VR") {
-        setTextObject({
-          borders: "Opened Borders",
-          visa: "Visa Required",
-          quarantine: "Yes",
-          covid: "Yes",
-          temp: "Yes",
-          vColor: "red",
-          color: "red",
-        });
-      } else {
-        setTextObject({
-          borders: "Opened Borders",
-          visa: "Visa-free",
-          quarantine: "No",
-          covid: "No",
-          temp: "No",
-        });
-      }
-    }
-  }, [output]);
-
-  useEffect(() => {
-    if (output) {
-      let foundObj = destInfo.find((o) => o.A == output.A);
-      setOutputInfo(foundObj);
-    }
-  }, [destInput]);
+  }, [countryInput, destinationInput, checkInput]);
 
   const handleChange = (e) => {
-    setDestInput({ ...destInput, [e.target.name]: e.target.value });
+    const target = e.target;
+    const value = target.type === "checkbox" ? target.checked : target.value;
+    const name = target.name;
+
+    if (name === "country") {
+      dispatch(updateCountry(value));
+    } else if (name === "destination") {
+      dispatch(updateDestination(value));
+    } else {
+      dispatch(updateCheck(value));
+    }
   };
 
-  const handleCheck = (e) => {
-    setDestInput({ ...destInput, [e.target.name]: e.target.checked });
+  const search = (e) => {
+    console.log("SEARCH RUNNING");
+    dispatch(searchDest());
+    if (output) {
+      if (output.C === "VF") {
+        dispatch(setTextObjectVF());
+      } else if (output.C === "VOA") {
+        dispatch(setTextObjectVOA());
+      } else if (output.C === "ETA") {
+        dispatch(setTextObjectETA());
+      } else if (output.C === "VR") {
+        dispatch(setTextObjectVR());
+      } else {
+        dispatch(setTextObject());
+      }
+    }
   };
 
   return (
     <>
-      {destInput.check ? (
+      {state.checkInput ? (
         <AllDestinations
           destinations={destinations}
-          destInput={destInput}
           handleChange={handleChange}
-          handleCheck={handleCheck}
         />
       ) : (
         <div className="container">
-          <div className="destination-fill">
-            <div className="destination-fill-left">
-              <p className="input-label">Country of Passport</p>
-              <input
-                type="text"
-                className="destination-input"
-                name="country"
-                value={destInput.country}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="destination-fill-right">
-              <p className="input-label">Destination</p>
-              <input
-                type="text"
-                className="destination-input"
-                name="destination"
-                value={destInput.destination}
-                onChange={handleChange}
-              />
-              <div className="destination-fill-check">
+          <div className="destination-top">
+            <div className="destination-fill">
+              <div className="destination-fill-left">
+                <p className="input-label">Country of Passport</p>
                 <input
-                  type="checkbox"
-                  name="check"
-                  value={destInput.check}
-                  onChange={handleCheck}
+                  type="text"
+                  className="destination-input"
+                  name="country"
+                  value={countryInput}
+                  onChange={handleChange}
                 />
-                <p className="input-label">All Open Destinations</p>
+                {suggestion ? (
+                  <p className="suggestion">{suggestion.A}</p>
+                ) : null}
+              </div>
+              <div className="destination-fill-right">
+                <p className="input-label">Destination</p>
+                <input
+                  type="text"
+                  className="destination-input"
+                  name="destination"
+                  value={destinationInput}
+                  onChange={handleChange}
+                />
+                <div className="destination-fill-check">
+                  <input
+                    type="checkbox"
+                    name="check"
+                    value={checkInput}
+                    onChange={handleChange}
+                  />
+                  <p className="input-label">All Open Destinations</p>
+                </div>
               </div>
             </div>
+            {destinationInput && countryInput ? (
+              <div className="destination-search-btn" onClick={search}>
+                Search
+              </div>
+            ) : null}
           </div>
 
           <div className="destination-border">
