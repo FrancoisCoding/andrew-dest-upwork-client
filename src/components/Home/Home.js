@@ -39,8 +39,10 @@ const Home = () => {
   useEffect(() => {
     if (destinations && countryInput != "") {
       dispatch(setOutput());
-      const filterDestinations = destinations.filter((x) =>
-        x.A.toLowerCase().includes(`${countryInput}`)
+      const filterDestinations = destinations.filter(
+        (x) =>
+          x.A.toLowerCase().includes(`${countryInput}`) &&
+          x.B.toLowerCase().includes(`${destinationInput}`)
       )[0];
       setSuggestion(filterDestinations);
     }
@@ -121,6 +123,9 @@ const Home = () => {
                   onChange={handleChange}
                   autoComplete="off"
                 />
+                {suggestion ? (
+                  <p className="suggestion">{suggestion.B}</p>
+                ) : null}
                 <div className="home-card-fill-check">
                   <input type="checkbox" name="check" onChange={handleChange} />
                   <p className="input-label">All Open Destinations</p>

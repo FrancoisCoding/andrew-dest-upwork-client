@@ -42,8 +42,10 @@ const Destinations = (props) => {
     if (destinations && countryInput != "") {
       console.log("SETTING OUTPUT");
       dispatch(setOutput());
-      const filterDestinations = destinations.filter((x) =>
-        x.A.toLowerCase().includes(`${countryInput}`)
+      const filterDestinations = destinations.filter(
+        (x) =>
+          x.A.toLowerCase().includes(`${countryInput}`) &&
+          x.B.toLowerCase().includes(`${destinationInput}`)
       )[0];
       setSuggestion(filterDestinations);
     }
@@ -100,6 +102,7 @@ const Destinations = (props) => {
                   name="country"
                   value={countryInput}
                   onChange={handleChange}
+                  autoComplete="off"
                 />
                 {suggestion ? (
                   <p className="suggestion">{suggestion.A}</p>
@@ -113,7 +116,11 @@ const Destinations = (props) => {
                   name="destination"
                   value={destinationInput}
                   onChange={handleChange}
+                  autoComplete="off"
                 />
+                {suggestion ? (
+                  <p className="suggestion">{suggestion.B}</p>
+                ) : null}
                 <div className="destination-fill-check">
                   <input
                     type="checkbox"
