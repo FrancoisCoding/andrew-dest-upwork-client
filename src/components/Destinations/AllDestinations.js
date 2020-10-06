@@ -91,7 +91,8 @@ const AllDestinations = () => {
       <div className="destination-border">
         <h1>
           You can visit*
-          <span className="green">#</span>* countries at this moment
+          <span className="green">{destinations.length}</span>* countries at
+          this moment
         </h1>
       </div>
 
