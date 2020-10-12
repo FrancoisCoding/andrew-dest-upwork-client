@@ -80,8 +80,8 @@ const AllDestinations = () => {
             <input
               type="checkbox"
               name="check"
-              value={checkInput}
               onChange={handleChange}
+              checked
             />
             <p className="input-label">All Open Destinations</p>
           </div>
@@ -90,8 +90,8 @@ const AllDestinations = () => {
 
       <div className="destination-border">
         <h1>
-          You can visit*
-          <span className="green">{destinations.length}</span>* countries at
+          You can visit{" "}
+          <span className="green">{199}</span> countries at
           this moment
         </h1>
       </div>

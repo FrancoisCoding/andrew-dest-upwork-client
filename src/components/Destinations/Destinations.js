@@ -141,7 +141,7 @@ const Destinations = (props) => {
 
           <div className="destination-border">
             <h1>
-              *Destination country* have
+              { destinationInput.length> 0 ? destinationInput.charAt(0).toUpperCase() + destinationInput.slice(1) : 'Destination'} have
               <span className="green"> {textObject.borders} </span>for you to
               visit
             </h1>
@@ -155,7 +155,7 @@ const Destinations = (props) => {
               {textObject.visa === "Visa-free" ? (
                 <p>
                   You are permitted to stay up to{" "}
-                  <span className="green">##</span> days{" "}
+                  <span className="green">{output.C}</span> days{" "}
                   <span className="green">Visa-free</span>
                 </p>
               ) : null}
@@ -195,10 +195,6 @@ const Destinations = (props) => {
             </div>
           </div>
 
-          <div className="destination-other">
-            <h1>Other destinations that you can visit now:</h1>
-            <div className="destination-list"></div>
-          </div>
         </div>
       )}
     </>
