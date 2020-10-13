@@ -142,8 +142,9 @@ const Destinations = (props) => {
           <div className="destination-border">
             <h1>
               { destinationInput.length> 0 ? destinationInput.charAt(0).toUpperCase() + destinationInput.slice(1) : 'Destination'} have
-              <span className="green"> {textObject.borders} </span>for you to
-              visit
+              {textObject.borders === 'Opened Borders' && <><span className="green"> {textObject.borders}</span> for you to visit </>}
+              {textObject.borders === 'Closed Borders' && <span className="red"> {textObject.borders}</span>}
+             
             </h1>
           </div>
           <div className="destination-info">

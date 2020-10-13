@@ -22,6 +22,7 @@ const initialState = {
 };
 
 const initialReducer = (state = initialState, action) => {
+  console.log('OUTPUT INFO',state.output)
   switch (action.type) {
     case actionTypes.SET_DESTINATIONS:
       return {
@@ -65,13 +66,13 @@ const initialReducer = (state = initialState, action) => {
     case actionTypes.SEARCH_DEST:
       return {
         ...state,
-        outputInfo: destInfo.find((o) => o.A == state.output.A),
+        outputInfo: destInfo.find((o) => o.A == state.output.B),
       };
     case actionTypes.SET_TEXT_OBJECT:
       return {
         ...state,
         textObject: {
-          borders: "Opened Borders",
+          borders: state.outputInfo.B === 'Y' ? 'Opened Borders' : 'Closed Borders',
           visa: "Visa-free",
           quarantine: "No",
           covid: "No",
@@ -82,7 +83,7 @@ const initialReducer = (state = initialState, action) => {
       return {
         ...state,
         textObject: {
-          borders: "Opened Borders",
+          borders: state.outputInfo.B === 'Y' ? 'Opened Borders' : 'Closed Borders',
           visa: "Visa-free",
           quarantine: "No",
           covid: "No",
@@ -93,7 +94,7 @@ const initialReducer = (state = initialState, action) => {
       return {
         ...state,
         textObject: {
-          borders: "Opened Borders",
+          borders: state.outputInfo.B === 'Y' ? 'Opened Borders' : 'Closed Borders',
           visa: "Visa on Arrival",
           quarantine: "No",
           covid: "No",
@@ -106,7 +107,7 @@ const initialReducer = (state = initialState, action) => {
       return {
         ...state,
         textObject: {
-          borders: "Opened Borders",
+          borders: state.outputInfo.B === 'Y' ? 'Opened Borders' : 'Closed Borders',
           visa: "Electronic Travel Authority",
           quarantine: "No",
           covid: "No",
@@ -119,7 +120,7 @@ const initialReducer = (state = initialState, action) => {
       return {
         ...state,
         textObject: {
-          borders: "Opened Borders",
+          borders: state.outputInfo.B === 'Y' ? 'Opened Borders' : 'Closed Borders',
           visa: "Visa Required",
           quarantine: "Yes",
           covid: "Yes",
